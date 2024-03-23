@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { joinVoiceChannel } = require('@discordjs/voice');
+const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,6 +13,13 @@ module.exports = {
         }
 
         try {
+            // Get the existing voice connection, if any
+            const existingConnection = getVoiceConnection(userVoiceChannel.guild.id);
+            // If there's an existing connection, disconnect it first
+            if (existingConnection) {
+                existingConnection.destroy();
+            }
+
             // Join the user's voice channel
             const connection = joinVoiceChannel({
                 channelId: userVoiceChannel.id,
