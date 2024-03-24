@@ -3,7 +3,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const {token} = require('./json/logs.json');
 
-const bot = new Client({ intents: [GatewayIntentBits.Guilds] });
+const bot = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates] });
 
 bot.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
