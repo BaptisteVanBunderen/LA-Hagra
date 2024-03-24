@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const {token} = require('./json/logs.json');
+const { Player } = require('discord-player');
 
 const bot = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates] });
 
@@ -25,6 +26,13 @@ for (const folder of commandFolders) {
 
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+client.player = new Player(client, {
+	ytdlOptions: {
+		quality: 'highstaudio',
+		highWaterMark: 1 << 25
+	}
+});
 
 for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file);
